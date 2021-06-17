@@ -2,6 +2,8 @@ const { create, update } = require("./service");
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 
+const { getByEmail } = require("./service");
+
 function createUser(req, res) {
   const body = req.body;
   const salt = genSaltSync(10);
@@ -18,8 +20,8 @@ function createUser(req, res) {
   if (!body.hasOwnProperty("password")) {
     msg = "password needed!";
   }
-  if (msg.length === 0) {
-    res.status(400).json({
+  if (msg.length !== 0) {
+    return res.status(400).json({
       status: 400,
       message: msg,
       data: [],
@@ -28,7 +30,7 @@ function createUser(req, res) {
   body.password = hashSync(body.password, salt);
   create(body, function (err, results) {
     if (err) {
-      console.log(err);
+      console.log('createUser error', err);
       return res.status(500).json({
         status: 500,
         message: "Database connection error",
@@ -43,12 +45,15 @@ function createUser(req, res) {
 }
 
 function updateUser(req, res) {
+
   const body = req.body;
-  const salt = genSaltSync(10);
-  body.password = hashSync(body.password, salt);
-  update(body, function (err, results) {
+  if (body.hasOwnProperty('password')) {
+    const salt = genSaltSync(10);
+    body.password = hashSync(body.password, salt);
+  }
+  update(req?.user?.id, body, function (err, results) {
     if (err) {
-      console.log(err);
+      console.log('updateUser error', err);
       return res.status(500).json({
         status: 500,
         message: "Database connection error",
@@ -73,7 +78,7 @@ function userLogin(req, res) {
   const body = req.body;
   getByEmail(body.email, function (err, results) {
     if (err) {
-      console.log(err);
+      console.log('userLogin error', err);
       return res.status(500).json({
         status: 500,
         message: "Database connection error",

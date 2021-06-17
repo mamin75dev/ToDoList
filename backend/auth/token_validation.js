@@ -12,6 +12,10 @@ function checkToken(req, res, next) {
           data: [],
         });
       } else {
+        // res.status(300).json({
+        //   data: decoded.result.id
+        // })
+        req.user = decoded?.result
         next();
       }
     });

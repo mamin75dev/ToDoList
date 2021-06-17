@@ -14,7 +14,7 @@ function createUser(data, callBack) {
   );
 }
 
-function updateUser(data, callBack) {
+function updateUser(id, data, callBack) {
   const arr = [];
   // const sql = `update users set first_name = ?, last_name = ?, email = ?, password = ?, where id = ?`;
   let sql = `update users set `;
@@ -27,12 +27,16 @@ function updateUser(data, callBack) {
     }
     arr.push(Object.values(data)[i]);
   }
-  sql += `where id = ?`;
+  /**
+   * double check this code for id ::
+   * where id id set and push to array for next line?
+   */
+  sql += `where id = ${id}`;
   pool.query(sql, arr, function (error, results, fields) {
     if (error) {
       return callBack(error);
     }
-    return callBack(null, results[0]);
+    return callBack(null, results);
   });
 }
 
