@@ -15,7 +15,7 @@ function checkToken(req, res, next) {
         // res.status(300).json({
         //   data: decoded.result.id
         // })
-        req.user = decoded?.result
+        req.user = decoded?.result;
         next();
       }
     });

@@ -30,7 +30,7 @@ function createUser(req, res) {
   body.password = hashSync(body.password, salt);
   create(body, function (err, results) {
     if (err) {
-      console.log('createUser error', err);
+      console.log("createUser error", err);
       return res.status(500).json({
         status: 500,
         message: err,
@@ -52,15 +52,14 @@ function createUser(req, res) {
 }
 
 function updateUser(req, res) {
-
   const body = req.body;
-  if (body.hasOwnProperty('password')) {
+  if (body.hasOwnProperty("password")) {
     const salt = genSaltSync(10);
     body.password = hashSync(body.password, salt);
   }
   update(req?.user?.id, body, function (err, results) {
     if (err) {
-      console.log('updateUser error', err);
+      console.log("updateUser error", err);
       return res.status(500).json({
         status: 500,
         message: err,
@@ -85,7 +84,7 @@ function userLogin(req, res) {
   const body = req.body;
   getByEmail(body.email, function (err, results) {
     if (err) {
-      console.log('userLogin error', err);
+      console.log("userLogin error", err);
       return res.status(500).json({
         status: 500,
         message: err,

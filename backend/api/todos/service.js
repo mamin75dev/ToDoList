@@ -50,7 +50,7 @@ function getTodosForUser(user_id, callBack) {
     } else {
       return callBack(null, results);
     }
-  })
+  });
 }
 
 function getTodoDetails(user_id, id, callBack) {
