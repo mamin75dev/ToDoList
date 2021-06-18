@@ -27,10 +27,6 @@ function updateUser(id, data, callBack) {
     }
     arr.push(Object.values(data)[i]);
   }
-  /**
-   * double check this code for id ::
-   * where id id set and push to array for next line?
-   */
   sql += `where id = ${id}`;
   pool.query(sql, arr, function (error, results, fields) {
     if (error) {

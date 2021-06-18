@@ -33,7 +33,14 @@ function createUser(req, res) {
       console.log('createUser error', err);
       return res.status(500).json({
         status: 500,
-        message: "Database connection error",
+        message: err,
+      });
+    }
+    if (!results) {
+      return res.status(500).json({
+        status: 500,
+        message: "Faild to create user",
+        data: [],
       });
     }
     return res.status(200).json({
@@ -56,7 +63,7 @@ function updateUser(req, res) {
       console.log('updateUser error', err);
       return res.status(500).json({
         status: 500,
-        message: "Database connection error",
+        message: err,
       });
     }
     if (!results) {
@@ -81,7 +88,7 @@ function userLogin(req, res) {
       console.log('userLogin error', err);
       return res.status(500).json({
         status: 500,
-        message: "Database connection error",
+        message: err,
       });
     }
     if (!results) {
